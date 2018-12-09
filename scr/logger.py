@@ -22,7 +22,7 @@ def global_log(name, fname='global.log',active=True):
     return logger
 
 
-def init_html(html,file,n_groups):
+def init_html(html,output_dir,file,n_groups):
     f = open(html,'w')
     msg = '''
     <html>
@@ -50,8 +50,11 @@ def init_html(html,file,n_groups):
         <body>
             <h1>Blindr.py output</h1>
             <p>Input file: ''' + file + '''</p>
+            <p>Output dicectory: ''' + output_dir + '''</p>
             <p>Experimental groups to be created: ''' + str(n_groups) + '''</p>
     '''
+    #            <p>Output dicectory:  <a href="file://''' + output_dir + '''">''' + output_dir + '''</a> </p>
+
     f.write(msg)
     f.close()
 
@@ -102,14 +105,24 @@ def write_to_html(html, text):
     f.close()
 
 
-def plot_to_html(html, name, title='TITLE'):
+def topic_to_html(html, text):
     f = open(html,'a')
-    name = name.split('\\')[-1]
+    text = text.replace(' ', '&ensp;')
+    msg = '''
+            <h3>''' + text + '''</h3>
+    '''
+    f.write(msg)
+    f.close()
+
+
+def plot_to_html(html, path, name, title='TITLE'):
+    f = open(html,'a')
     msg = '''
             <!-- *** Section 1 *** --->
             <h3>''' + title + '''</h3>
-            <iframe width="100%%" height="400" frameborder="0" seamless="seamless" scrolling="no" \
+            <iframe width="100%%" height="380" frameborder="0" seamless="seamless" scrolling="no" \
     src="''' + name + '''"></iframe>
+            <p>Plot available under ''' + path+name + '''</p>
     '''
     f.write(msg)
     f.close()

@@ -1,0 +1,181 @@
+
+    <html>
+        <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+            <style>
+               body{ margin:0 100; background:whitesmoke; }
+                table {
+                  font-family: arial, sans-serif;
+                  border-collapse: collapse;
+                  width: 30%;
+                }
+
+                td, th {
+                  border: 1px solid #dddddd;
+                  text-align: center;
+                  padding: 8px;
+                }
+
+                tr:nth-child(even) {
+                  background-color: #dddddd;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Blindr.py output</h1>
+            <p>Input file: C:/Users/huebo/Blindr/input/example_data.xlsx</p>
+            <p>Output dicectory:  <a href="file://C:/Users/huebo/Blindr/input/example_data_blinded/09-12-18_23-37-29/">C:/Users/huebo/Blindr/input/example_data_blinded/09-12-18_23-37-29/</a> </p>
+            <p>Experimental groups to be created: 2</p>
+    
+            <p>Number&ensp;of&ensp;animals:&ensp;31</p>
+    
+            <p><br></p>
+    
+            <p>
+&ensp;Found&ensp;features:</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;Numerical&ensp;feature:&ensp;Weight</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;Numerical&ensp;feature:&ensp;Activity</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;Numerical&ensp;feature:&ensp;Signal&ensp;strength</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;Categorical&ensp;feature:&ensp;Actogram</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Unique&ensp;values:&ensp;3</p>
+    
+            <!-- *** Section 1 *** --->
+            <h3>Features to be equally distributed</h3>
+            <iframe width="100%%" height="380" frameborder="0" seamless="seamless" scrolling="no"     src="example_data_features.png"></iframe>
+            <p>Plot available under C:/Users/huebo/Blindr/input/example_data_blinded/09-12-18_23-37-29/example_data_features.png</p>
+    
+            <p>Group&ensp;sizes&ensp;are&ensp;balanced!</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;Group&ensp;1&ensp;contains&ensp;15&ensp;animals</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;&ensp;Group&ensp;2&ensp;contains&ensp;16&ensp;animals</p>
+    
+            <p><br></p>
+    
+            <!-- *** Section 1 *** --->
+            <h3>Distribution of features in generated groups</h3>
+            <iframe width="100%%" height="380" frameborder="0" seamless="seamless" scrolling="no"     src="grouped_example_data.png"></iframe>
+            <p>Plot available under C:/Users/huebo/Blindr/input/example_data_blinded/09-12-18_23-37-29/grouped_example_data.png</p>
+    
+            <h3>Difference&ensp;significance&ensp;of&ensp;features&ensp;between&ensp;groups</h3>
+    
+            <p>Feature:&ensp;Weight</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;Group&ensp;1&ensp;&&ensp;group&ensp;2&ensp;&ensp;&ensp;&ensp;&ensp;p&ensp;=&ensp;0.9838</p>
+    
+            <p>Feature:&ensp;Activity</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;Group&ensp;1&ensp;&&ensp;group&ensp;2&ensp;&ensp;&ensp;&ensp;&ensp;p&ensp;=&ensp;0.9065</p>
+    
+            <p>Feature:&ensp;Signal&ensp;strength</p>
+    
+            <p>&ensp;&ensp;&ensp;&ensp;Group&ensp;1&ensp;&&ensp;group&ensp;2&ensp;&ensp;&ensp;&ensp;&ensp;p&ensp;=&ensp;0.6761</p>
+    
+            <p><br></p>
+    
+            <h3>Experimental groups</h3>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Group</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+    <tr>
+      <th>No</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>PH22532</td>
+      <td>PH22531</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PH22535</td>
+      <td>PH22533</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PH22536</td>
+      <td>PH22534</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PH22539</td>
+      <td>PH22537</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>PH22541</td>
+      <td>PH22538</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>PH22544</td>
+      <td>PH22540</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>PH22545</td>
+      <td>PH22542</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>PH22547</td>
+      <td>PH22543</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>PH22548</td>
+      <td>PH22546</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>PH22551</td>
+      <td>PH22549</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>PH22552</td>
+      <td>PH22550</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>PH22556</td>
+      <td>PH22553</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>PH22559</td>
+      <td>PH22554</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>PH22560</td>
+      <td>PH22555</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>PH22561</td>
+      <td>PH22557</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>None</td>
+      <td>PH22558</td>
+    </tr>
+  </tbody>
+</table><br><br>
+            <p>Grouped&ensp;data&ensp;available&ensp;under&ensp;C:/Users/huebo/Blindr/input/example_data_blinded/09-12-18_23-37-29/blinded_example_data.xlsx</p>
+           
+    </body>
+    </html>
