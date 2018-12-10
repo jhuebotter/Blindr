@@ -1,0 +1,447 @@
+2018-12-10 02:56:40,452 - INFO - Starting script...
+2018-12-10 02:56:40,453 - INFO - Loading data from C:/Users/huebo/Blindr/input/example_data.xlsx
+2018-12-10 02:56:40,827 - INFO - Loading succuessful!
+2018-12-10 02:56:40,827 - INFO - 
+2018-12-10 02:56:40,837 - INFO - Preprocessing data
+2018-12-10 02:56:40,837 - INFO - 
+ Found features:
+2018-12-10 02:56:40,839 - INFO -      Numerical feature: Weight
+2018-12-10 02:56:40,841 - INFO -      Numerical feature: Activity
+2018-12-10 02:56:40,842 - INFO -      Numerical feature: Signal strength
+2018-12-10 02:56:40,843 - INFO -      Categorical feature: Actogram
+2018-12-10 02:56:40,845 - INFO -          Unique values: 3
+2018-12-10 02:56:40,847 - INFO - OK              26
+Low activity     3
+High             2
+Name: Actogram, dtype: int64
+2018-12-10 02:56:40,853 - INFO - Numerizing category: OK
+2018-12-10 02:56:40,857 - INFO - Numerizing category: Low activity
+2018-12-10 02:56:40,860 - INFO - Numerizing category: High
+2018-12-10 02:56:40,864 - INFO - Preprocessing complete
+2018-12-10 02:56:40,865 - INFO - 
+2018-12-10 02:56:40,865 - INFO - Plotting data
+2018-12-10 02:56:41,335 - INFO - saving plot as C:/Users/huebo/Blindr/input/example_data_blinded/10-12-18_02-56-40/example_data_features.png
+2018-12-10 02:56:41,347 - INFO - 
+2018-12-10 02:56:41,348 - INFO - Standardscaling data
+2018-12-10 02:56:41,348 - INFO - standard scaling (1 of 6): Weight
+2018-12-10 02:56:41,352 - INFO - standard scaling (2 of 6): Activity
+2018-12-10 02:56:41,354 - INFO - standard scaling (3 of 6): Signal strength
+2018-12-10 02:56:41,355 - INFO - standard scaling (4 of 6): OK
+2018-12-10 02:56:41,356 - INFO - standard scaling (5 of 6): Low activity
+2018-12-10 02:56:41,357 - INFO - standard scaling (6 of 6): High
+2018-12-10 02:56:41,358 - INFO - Standardscaling complete!
+2018-12-10 02:56:41,359 - INFO - 
+2018-12-10 02:56:41,359 - INFO - Creating animals
+2018-12-10 02:56:41,361 - INFO - created animal with ID: PH22531
+2018-12-10 02:56:41,362 - INFO - created animal with ID: PH22532
+2018-12-10 02:56:41,363 - INFO - created animal with ID: PH22533
+2018-12-10 02:56:41,365 - INFO - created animal with ID: PH22534
+2018-12-10 02:56:41,366 - INFO - created animal with ID: PH22535
+2018-12-10 02:56:41,369 - INFO - created animal with ID: PH22536
+2018-12-10 02:56:41,371 - INFO - created animal with ID: PH22537
+2018-12-10 02:56:41,372 - INFO - created animal with ID: PH22538
+2018-12-10 02:56:41,373 - INFO - created animal with ID: PH22539
+2018-12-10 02:56:41,375 - INFO - created animal with ID: PH22540
+2018-12-10 02:56:41,376 - INFO - created animal with ID: PH22541
+2018-12-10 02:56:41,377 - INFO - created animal with ID: PH22542
+2018-12-10 02:56:41,379 - INFO - created animal with ID: PH22543
+2018-12-10 02:56:41,380 - INFO - created animal with ID: PH22544
+2018-12-10 02:56:41,381 - INFO - created animal with ID: PH22545
+2018-12-10 02:56:41,382 - INFO - created animal with ID: PH22546
+2018-12-10 02:56:41,383 - INFO - created animal with ID: PH22547
+2018-12-10 02:56:41,385 - INFO - created animal with ID: PH22548
+2018-12-10 02:56:41,387 - INFO - created animal with ID: PH22549
+2018-12-10 02:56:41,387 - INFO - created animal with ID: PH22550
+2018-12-10 02:56:41,389 - INFO - created animal with ID: PH22551
+2018-12-10 02:56:41,391 - INFO - created animal with ID: PH22552
+2018-12-10 02:56:41,391 - INFO - created animal with ID: PH22553
+2018-12-10 02:56:41,393 - INFO - created animal with ID: PH22554
+2018-12-10 02:56:41,394 - INFO - created animal with ID: PH22555
+2018-12-10 02:56:41,395 - INFO - created animal with ID: PH22556
+2018-12-10 02:56:41,396 - INFO - created animal with ID: PH22557
+2018-12-10 02:56:41,399 - INFO - created animal with ID: PH22558
+2018-12-10 02:56:41,400 - INFO - created animal with ID: PH22559
+2018-12-10 02:56:41,401 - INFO - created animal with ID: PH22560
+2018-12-10 02:56:41,403 - INFO - created animal with ID: PH22561
+2018-12-10 02:56:41,403 - INFO - Created 31 animals
+2018-12-10 02:56:41,404 - INFO - 
+2018-12-10 02:56:41,405 - INFO - Creating groups
+2018-12-10 02:56:41,405 - INFO - created group with ID: 1
+2018-12-10 02:56:41,405 - INFO - created group with ID: 2
+2018-12-10 02:56:41,406 - INFO - Created 2 groups
+2018-12-10 02:56:41,407 - INFO - 
+2018-12-10 02:56:41,407 - INFO - Assigning animals to groups
+2018-12-10 02:56:41,410 - INFO - assigned animal PH22545 to group 1
+2018-12-10 02:56:41,411 - INFO - assigned animal PH22541 to group 1
+2018-12-10 02:56:41,414 - INFO - assigned animal PH22560 to group 1
+2018-12-10 02:56:41,416 - INFO - assigned animal PH22543 to group 2
+2018-12-10 02:56:41,418 - INFO - assigned animal PH22537 to group 2
+2018-12-10 02:56:41,419 - INFO - assigned animal PH22538 to group 2
+2018-12-10 02:56:41,420 - INFO - assigned animal PH22556 to group 1
+2018-12-10 02:56:41,422 - INFO - assigned animal PH22540 to group 2
+2018-12-10 02:56:41,423 - INFO - assigned animal PH22546 to group 2
+2018-12-10 02:56:41,425 - INFO - assigned animal PH22550 to group 2
+2018-12-10 02:56:41,426 - INFO - assigned animal PH22539 to group 1
+2018-12-10 02:56:41,427 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,429 - INFO - assigned animal PH22551 to group 1
+2018-12-10 02:56:41,431 - INFO - assigned animal PH22555 to group 2
+2018-12-10 02:56:41,432 - INFO - assigned animal PH22554 to group 2
+2018-12-10 02:56:41,433 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,435 - INFO - assigned animal PH22552 to group 1
+2018-12-10 02:56:41,436 - INFO - assigned animal PH22536 to group 1
+2018-12-10 02:56:41,437 - INFO - assigned animal PH22534 to group 2
+2018-12-10 02:56:41,438 - INFO - assigned animal PH22548 to group 1
+2018-12-10 02:56:41,439 - INFO - assigned animal PH22542 to group 2
+2018-12-10 02:56:41,440 - INFO - assigned animal PH22553 to group 2
+2018-12-10 02:56:41,441 - INFO - assigned animal PH22532 to group 1
+2018-12-10 02:56:41,442 - INFO - assigned animal PH22557 to group 2
+2018-12-10 02:56:41,443 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,444 - INFO - assigned animal PH22535 to group 1
+2018-12-10 02:56:41,444 - INFO - assigned animal PH22531 to group 2
+2018-12-10 02:56:41,445 - INFO - assigned animal PH22547 to group 1
+2018-12-10 02:56:41,447 - INFO - assigned animal PH22559 to group 2
+2018-12-10 02:56:41,448 - INFO - assigned animal PH22561 to group 2
+2018-12-10 02:56:41,450 - INFO - assigned animal PH22544 to group 2
+2018-12-10 02:56:41,451 - INFO - Initial assignment complete!
+2018-12-10 02:56:41,451 - INFO - 
+2018-12-10 02:56:41,451 - INFO - Equalizing group sizes
+2018-12-10 02:56:41,452 - INFO - 
+2018-12-10 02:56:41,452 - INFO - Group ID: 1
+2018-12-10 02:56:41,453 - INFO - Group size: 12
+2018-12-10 02:56:41,454 - INFO - mean feature difference between group 1 and 2: 0.901
+2018-12-10 02:56:41,454 - INFO - 
+2018-12-10 02:56:41,455 - INFO - Group ID: 2
+2018-12-10 02:56:41,455 - INFO - Group size: 19
+2018-12-10 02:56:41,457 - INFO - mean feature difference between group 2 and 1: 0.901
+2018-12-10 02:56:41,457 - INFO - mean difference: 0.901
+2018-12-10 02:56:41,457 - INFO - largest group: 2
+2018-12-10 02:56:41,458 - INFO - smallest group 1:
+2018-12-10 02:56:41,458 - INFO - Group sizes are not balanced!
+2018-12-10 02:56:41,459 - INFO - checking for best animal to reassign
+2018-12-10 02:56:41,459 - INFO - 
+2018-12-10 02:56:41,460 - INFO - removed animal PH22543 from group 2
+2018-12-10 02:56:41,461 - INFO - assigned animal PH22543 to group 1
+2018-12-10 02:56:41,464 - INFO - removed animal PH22543 from group 1
+2018-12-10 02:56:41,465 - INFO - assigned animal PH22543 to group 2
+2018-12-10 02:56:41,465 - INFO - 
+2018-12-10 02:56:41,465 - INFO - removed animal PH22538 from group 2
+2018-12-10 02:56:41,467 - INFO - assigned animal PH22538 to group 1
+2018-12-10 02:56:41,468 - INFO - removed animal PH22538 from group 1
+2018-12-10 02:56:41,469 - INFO - assigned animal PH22538 to group 2
+2018-12-10 02:56:41,469 - INFO - 
+2018-12-10 02:56:41,469 - INFO - removed animal PH22546 from group 2
+2018-12-10 02:56:41,470 - INFO - assigned animal PH22546 to group 1
+2018-12-10 02:56:41,471 - INFO - removed animal PH22546 from group 1
+2018-12-10 02:56:41,471 - INFO - assigned animal PH22546 to group 2
+2018-12-10 02:56:41,471 - INFO - 
+2018-12-10 02:56:41,472 - INFO - removed animal PH22533 from group 2
+2018-12-10 02:56:41,473 - INFO - assigned animal PH22533 to group 1
+2018-12-10 02:56:41,474 - INFO - removed animal PH22533 from group 1
+2018-12-10 02:56:41,475 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,475 - INFO - 
+2018-12-10 02:56:41,476 - INFO - removed animal PH22554 from group 2
+2018-12-10 02:56:41,477 - INFO - assigned animal PH22554 to group 1
+2018-12-10 02:56:41,479 - INFO - removed animal PH22554 from group 1
+2018-12-10 02:56:41,481 - INFO - assigned animal PH22554 to group 2
+2018-12-10 02:56:41,481 - INFO - 
+2018-12-10 02:56:41,481 - INFO - removed animal PH22534 from group 2
+2018-12-10 02:56:41,482 - INFO - assigned animal PH22534 to group 1
+2018-12-10 02:56:41,482 - INFO - removed animal PH22534 from group 1
+2018-12-10 02:56:41,483 - INFO - assigned animal PH22534 to group 2
+2018-12-10 02:56:41,483 - INFO - 
+2018-12-10 02:56:41,485 - INFO - removed animal PH22553 from group 2
+2018-12-10 02:56:41,486 - INFO - assigned animal PH22553 to group 1
+2018-12-10 02:56:41,486 - INFO - removed animal PH22553 from group 1
+2018-12-10 02:56:41,487 - INFO - assigned animal PH22553 to group 2
+2018-12-10 02:56:41,487 - INFO - 
+2018-12-10 02:56:41,487 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,488 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,489 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,490 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,490 - INFO - 
+2018-12-10 02:56:41,491 - INFO - removed animal PH22559 from group 2
+2018-12-10 02:56:41,492 - INFO - assigned animal PH22559 to group 1
+2018-12-10 02:56:41,492 - INFO - removed animal PH22559 from group 1
+2018-12-10 02:56:41,495 - INFO - assigned animal PH22559 to group 2
+2018-12-10 02:56:41,495 - INFO - 
+2018-12-10 02:56:41,496 - INFO - removed animal PH22544 from group 2
+2018-12-10 02:56:41,497 - INFO - assigned animal PH22544 to group 1
+2018-12-10 02:56:41,498 - INFO - removed animal PH22544 from group 1
+2018-12-10 02:56:41,498 - INFO - assigned animal PH22544 to group 2
+2018-12-10 02:56:41,499 - INFO - 
+2018-12-10 02:56:41,499 - INFO - removed animal PH22538 from group 2
+2018-12-10 02:56:41,500 - INFO - assigned animal PH22538 to group 1
+2018-12-10 02:56:41,500 - INFO - removed animal PH22538 from group 1
+2018-12-10 02:56:41,501 - INFO - assigned animal PH22538 to group 2
+2018-12-10 02:56:41,502 - INFO - 
+2018-12-10 02:56:41,502 - INFO - removed animal PH22533 from group 2
+2018-12-10 02:56:41,503 - INFO - assigned animal PH22533 to group 1
+2018-12-10 02:56:41,504 - INFO - removed animal PH22533 from group 1
+2018-12-10 02:56:41,504 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,505 - INFO - 
+2018-12-10 02:56:41,505 - INFO - removed animal PH22534 from group 2
+2018-12-10 02:56:41,506 - INFO - assigned animal PH22534 to group 1
+2018-12-10 02:56:41,507 - INFO - removed animal PH22534 from group 1
+2018-12-10 02:56:41,508 - INFO - assigned animal PH22534 to group 2
+2018-12-10 02:56:41,511 - INFO - 
+2018-12-10 02:56:41,511 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,512 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,513 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,514 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,514 - INFO - 
+2018-12-10 02:56:41,514 - INFO - removed animal PH22544 from group 2
+2018-12-10 02:56:41,515 - INFO - assigned animal PH22544 to group 1
+2018-12-10 02:56:41,516 - INFO - removed animal PH22544 from group 1
+2018-12-10 02:56:41,517 - INFO - assigned animal PH22544 to group 2
+2018-12-10 02:56:41,517 - INFO - 
+2018-12-10 02:56:41,517 - INFO - removed animal PH22533 from group 2
+2018-12-10 02:56:41,519 - INFO - assigned animal PH22533 to group 1
+2018-12-10 02:56:41,520 - INFO - removed animal PH22533 from group 1
+2018-12-10 02:56:41,521 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,521 - INFO - 
+2018-12-10 02:56:41,522 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,522 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,523 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,523 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,526 - INFO - 
+2018-12-10 02:56:41,526 - INFO - removed animal PH22533 from group 2
+2018-12-10 02:56:41,528 - INFO - assigned animal PH22533 to group 1
+2018-12-10 02:56:41,529 - INFO - removed animal PH22533 from group 1
+2018-12-10 02:56:41,530 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,530 - INFO - 
+2018-12-10 02:56:41,530 - INFO - removed animal PH22533 from group 2
+2018-12-10 02:56:41,531 - INFO - assigned animal PH22533 to group 1
+2018-12-10 02:56:41,532 - INFO - removed animal PH22533 from group 1
+2018-12-10 02:56:41,533 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,533 - INFO - 
+2018-12-10 02:56:41,533 - INFO - best animal to switch is: PH22544 with new mean p = 0.886004
+2018-12-10 02:56:41,534 - INFO - removed animal PH22544 from group 2
+2018-12-10 02:56:41,535 - INFO - assigned animal PH22544 to group 1
+2018-12-10 02:56:41,535 - INFO - 
+2018-12-10 02:56:41,536 - INFO - 
+2018-12-10 02:56:41,536 - INFO - Group ID: 1
+2018-12-10 02:56:41,537 - INFO - Group size: 13
+2018-12-10 02:56:41,537 - INFO - 
+2018-12-10 02:56:41,538 - INFO - Group ID: 2
+2018-12-10 02:56:41,538 - INFO - Group size: 18
+2018-12-10 02:56:41,538 - INFO - Group sizes are not balanced!
+2018-12-10 02:56:41,542 - INFO - checking for best animal to reassign
+2018-12-10 02:56:41,542 - INFO - 
+2018-12-10 02:56:41,544 - INFO - removed animal PH22537 from group 2
+2018-12-10 02:56:41,544 - INFO - assigned animal PH22537 to group 1
+2018-12-10 02:56:41,545 - INFO - removed animal PH22537 from group 1
+2018-12-10 02:56:41,546 - INFO - assigned animal PH22537 to group 2
+2018-12-10 02:56:41,546 - INFO - 
+2018-12-10 02:56:41,546 - INFO - removed animal PH22550 from group 2
+2018-12-10 02:56:41,547 - INFO - assigned animal PH22550 to group 1
+2018-12-10 02:56:41,548 - INFO - removed animal PH22550 from group 1
+2018-12-10 02:56:41,548 - INFO - assigned animal PH22550 to group 2
+2018-12-10 02:56:41,549 - INFO - 
+2018-12-10 02:56:41,549 - INFO - removed animal PH22549 from group 2
+2018-12-10 02:56:41,550 - INFO - assigned animal PH22549 to group 1
+2018-12-10 02:56:41,550 - INFO - removed animal PH22549 from group 1
+2018-12-10 02:56:41,551 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,551 - INFO - 
+2018-12-10 02:56:41,552 - INFO - removed animal PH22557 from group 2
+2018-12-10 02:56:41,552 - INFO - assigned animal PH22557 to group 1
+2018-12-10 02:56:41,553 - INFO - removed animal PH22557 from group 1
+2018-12-10 02:56:41,554 - INFO - assigned animal PH22557 to group 2
+2018-12-10 02:56:41,554 - INFO - 
+2018-12-10 02:56:41,554 - INFO - removed animal PH22561 from group 2
+2018-12-10 02:56:41,557 - INFO - assigned animal PH22561 to group 1
+2018-12-10 02:56:41,558 - INFO - removed animal PH22561 from group 1
+2018-12-10 02:56:41,558 - INFO - assigned animal PH22561 to group 2
+2018-12-10 02:56:41,559 - INFO - 
+2018-12-10 02:56:41,559 - INFO - removed animal PH22546 from group 2
+2018-12-10 02:56:41,561 - INFO - assigned animal PH22546 to group 1
+2018-12-10 02:56:41,561 - INFO - removed animal PH22546 from group 1
+2018-12-10 02:56:41,562 - INFO - assigned animal PH22546 to group 2
+2018-12-10 02:56:41,562 - INFO - 
+2018-12-10 02:56:41,563 - INFO - removed animal PH22553 from group 2
+2018-12-10 02:56:41,564 - INFO - assigned animal PH22553 to group 1
+2018-12-10 02:56:41,564 - INFO - removed animal PH22553 from group 1
+2018-12-10 02:56:41,565 - INFO - assigned animal PH22553 to group 2
+2018-12-10 02:56:41,566 - INFO - 
+2018-12-10 02:56:41,566 - INFO - removed animal PH22538 from group 2
+2018-12-10 02:56:41,567 - INFO - assigned animal PH22538 to group 1
+2018-12-10 02:56:41,567 - INFO - removed animal PH22538 from group 1
+2018-12-10 02:56:41,568 - INFO - assigned animal PH22538 to group 2
+2018-12-10 02:56:41,568 - INFO - 
+2018-12-10 02:56:41,569 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,570 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,571 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,573 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,574 - INFO - 
+2018-12-10 02:56:41,575 - INFO - removed animal PH22537 from group 2
+2018-12-10 02:56:41,575 - INFO - assigned animal PH22537 to group 1
+2018-12-10 02:56:41,576 - INFO - removed animal PH22537 from group 1
+2018-12-10 02:56:41,576 - INFO - assigned animal PH22537 to group 2
+2018-12-10 02:56:41,576 - INFO - 
+2018-12-10 02:56:41,577 - INFO - removed animal PH22549 from group 2
+2018-12-10 02:56:41,578 - INFO - assigned animal PH22549 to group 1
+2018-12-10 02:56:41,578 - INFO - removed animal PH22549 from group 1
+2018-12-10 02:56:41,579 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,580 - INFO - 
+2018-12-10 02:56:41,580 - INFO - removed animal PH22561 from group 2
+2018-12-10 02:56:41,581 - INFO - assigned animal PH22561 to group 1
+2018-12-10 02:56:41,582 - INFO - removed animal PH22561 from group 1
+2018-12-10 02:56:41,582 - INFO - assigned animal PH22561 to group 2
+2018-12-10 02:56:41,583 - INFO - 
+2018-12-10 02:56:41,583 - INFO - removed animal PH22553 from group 2
+2018-12-10 02:56:41,584 - INFO - assigned animal PH22553 to group 1
+2018-12-10 02:56:41,585 - INFO - removed animal PH22553 from group 1
+2018-12-10 02:56:41,585 - INFO - assigned animal PH22553 to group 2
+2018-12-10 02:56:41,589 - INFO - 
+2018-12-10 02:56:41,589 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,590 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,591 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,592 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,592 - INFO - 
+2018-12-10 02:56:41,592 - INFO - removed animal PH22549 from group 2
+2018-12-10 02:56:41,593 - INFO - assigned animal PH22549 to group 1
+2018-12-10 02:56:41,594 - INFO - removed animal PH22549 from group 1
+2018-12-10 02:56:41,594 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,595 - INFO - 
+2018-12-10 02:56:41,595 - INFO - removed animal PH22553 from group 2
+2018-12-10 02:56:41,596 - INFO - assigned animal PH22553 to group 1
+2018-12-10 02:56:41,596 - INFO - removed animal PH22553 from group 1
+2018-12-10 02:56:41,597 - INFO - assigned animal PH22553 to group 2
+2018-12-10 02:56:41,597 - INFO - 
+2018-12-10 02:56:41,597 - INFO - removed animal PH22549 from group 2
+2018-12-10 02:56:41,598 - INFO - assigned animal PH22549 to group 1
+2018-12-10 02:56:41,599 - INFO - removed animal PH22549 from group 1
+2018-12-10 02:56:41,600 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,600 - INFO - 
+2018-12-10 02:56:41,600 - INFO - removed animal PH22549 from group 2
+2018-12-10 02:56:41,601 - INFO - assigned animal PH22549 to group 1
+2018-12-10 02:56:41,605 - INFO - removed animal PH22549 from group 1
+2018-12-10 02:56:41,606 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,606 - INFO - 
+2018-12-10 02:56:41,607 - INFO - best animal to switch is: PH22561 with new mean p = 0.846025
+2018-12-10 02:56:41,607 - INFO - removed animal PH22561 from group 2
+2018-12-10 02:56:41,608 - INFO - assigned animal PH22561 to group 1
+2018-12-10 02:56:41,608 - INFO - 
+2018-12-10 02:56:41,609 - INFO - 
+2018-12-10 02:56:41,609 - INFO - Group ID: 1
+2018-12-10 02:56:41,610 - INFO - Group size: 14
+2018-12-10 02:56:41,610 - INFO - 
+2018-12-10 02:56:41,611 - INFO - Group ID: 2
+2018-12-10 02:56:41,611 - INFO - Group size: 17
+2018-12-10 02:56:41,612 - INFO - Group sizes are not balanced!
+2018-12-10 02:56:41,612 - INFO - checking for best animal to reassign
+2018-12-10 02:56:41,613 - INFO - 
+2018-12-10 02:56:41,613 - INFO - removed animal PH22540 from group 2
+2018-12-10 02:56:41,614 - INFO - assigned animal PH22540 to group 1
+2018-12-10 02:56:41,615 - INFO - removed animal PH22540 from group 1
+2018-12-10 02:56:41,615 - INFO - assigned animal PH22540 to group 2
+2018-12-10 02:56:41,616 - INFO - 
+2018-12-10 02:56:41,616 - INFO - removed animal PH22542 from group 2
+2018-12-10 02:56:41,617 - INFO - assigned animal PH22542 to group 1
+2018-12-10 02:56:41,618 - INFO - removed animal PH22542 from group 1
+2018-12-10 02:56:41,621 - INFO - assigned animal PH22542 to group 2
+2018-12-10 02:56:41,621 - INFO - 
+2018-12-10 02:56:41,622 - INFO - removed animal PH22543 from group 2
+2018-12-10 02:56:41,623 - INFO - assigned animal PH22543 to group 1
+2018-12-10 02:56:41,624 - INFO - removed animal PH22543 from group 1
+2018-12-10 02:56:41,625 - INFO - assigned animal PH22543 to group 2
+2018-12-10 02:56:41,625 - INFO - 
+2018-12-10 02:56:41,625 - INFO - removed animal PH22559 from group 2
+2018-12-10 02:56:41,626 - INFO - assigned animal PH22559 to group 1
+2018-12-10 02:56:41,627 - INFO - removed animal PH22559 from group 1
+2018-12-10 02:56:41,627 - INFO - assigned animal PH22559 to group 2
+2018-12-10 02:56:41,627 - INFO - 
+2018-12-10 02:56:41,628 - INFO - removed animal PH22533 from group 2
+2018-12-10 02:56:41,629 - INFO - assigned animal PH22533 to group 1
+2018-12-10 02:56:41,629 - INFO - removed animal PH22533 from group 1
+2018-12-10 02:56:41,630 - INFO - assigned animal PH22533 to group 2
+2018-12-10 02:56:41,630 - INFO - 
+2018-12-10 02:56:41,631 - INFO - removed animal PH22557 from group 2
+2018-12-10 02:56:41,632 - INFO - assigned animal PH22557 to group 1
+2018-12-10 02:56:41,632 - INFO - removed animal PH22557 from group 1
+2018-12-10 02:56:41,633 - INFO - assigned animal PH22557 to group 2
+2018-12-10 02:56:41,633 - INFO - 
+2018-12-10 02:56:41,634 - INFO - removed animal PH22538 from group 2
+2018-12-10 02:56:41,636 - INFO - assigned animal PH22538 to group 1
+2018-12-10 02:56:41,638 - INFO - removed animal PH22538 from group 1
+2018-12-10 02:56:41,639 - INFO - assigned animal PH22538 to group 2
+2018-12-10 02:56:41,639 - INFO - 
+2018-12-10 02:56:41,639 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,640 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,641 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,642 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,642 - INFO - 
+2018-12-10 02:56:41,643 - INFO - removed animal PH22549 from group 2
+2018-12-10 02:56:41,643 - INFO - assigned animal PH22549 to group 1
+2018-12-10 02:56:41,644 - INFO - removed animal PH22549 from group 1
+2018-12-10 02:56:41,645 - INFO - assigned animal PH22549 to group 2
+2018-12-10 02:56:41,645 - INFO - 
+2018-12-10 02:56:41,645 - INFO - removed animal PH22542 from group 2
+2018-12-10 02:56:41,646 - INFO - assigned animal PH22542 to group 1
+2018-12-10 02:56:41,646 - INFO - removed animal PH22542 from group 1
+2018-12-10 02:56:41,647 - INFO - assigned animal PH22542 to group 2
+2018-12-10 02:56:41,647 - INFO - 
+2018-12-10 02:56:41,648 - INFO - removed animal PH22559 from group 2
+2018-12-10 02:56:41,649 - INFO - assigned animal PH22559 to group 1
+2018-12-10 02:56:41,652 - INFO - removed animal PH22559 from group 1
+2018-12-10 02:56:41,653 - INFO - assigned animal PH22559 to group 2
+2018-12-10 02:56:41,653 - INFO - 
+2018-12-10 02:56:41,654 - INFO - removed animal PH22557 from group 2
+2018-12-10 02:56:41,654 - INFO - assigned animal PH22557 to group 1
+2018-12-10 02:56:41,655 - INFO - removed animal PH22557 from group 1
+2018-12-10 02:56:41,656 - INFO - assigned animal PH22557 to group 2
+2018-12-10 02:56:41,656 - INFO - 
+2018-12-10 02:56:41,657 - INFO - removed animal PH22558 from group 2
+2018-12-10 02:56:41,658 - INFO - assigned animal PH22558 to group 1
+2018-12-10 02:56:41,658 - INFO - removed animal PH22558 from group 1
+2018-12-10 02:56:41,659 - INFO - assigned animal PH22558 to group 2
+2018-12-10 02:56:41,659 - INFO - 
+2018-12-10 02:56:41,660 - INFO - removed animal PH22542 from group 2
+2018-12-10 02:56:41,661 - INFO - assigned animal PH22542 to group 1
+2018-12-10 02:56:41,661 - INFO - removed animal PH22542 from group 1
+2018-12-10 02:56:41,662 - INFO - assigned animal PH22542 to group 2
+2018-12-10 02:56:41,663 - INFO - 
+2018-12-10 02:56:41,663 - INFO - removed animal PH22557 from group 2
+2018-12-10 02:56:41,664 - INFO - assigned animal PH22557 to group 1
+2018-12-10 02:56:41,665 - INFO - removed animal PH22557 from group 1
+2018-12-10 02:56:41,667 - INFO - assigned animal PH22557 to group 2
+2018-12-10 02:56:41,667 - INFO - 
+2018-12-10 02:56:41,668 - INFO - removed animal PH22542 from group 2
+2018-12-10 02:56:41,669 - INFO - assigned animal PH22542 to group 1
+2018-12-10 02:56:41,670 - INFO - removed animal PH22542 from group 1
+2018-12-10 02:56:41,670 - INFO - assigned animal PH22542 to group 2
+2018-12-10 02:56:41,671 - INFO - 
+2018-12-10 02:56:41,671 - INFO - removed animal PH22542 from group 2
+2018-12-10 02:56:41,672 - INFO - assigned animal PH22542 to group 1
+2018-12-10 02:56:41,673 - INFO - removed animal PH22542 from group 1
+2018-12-10 02:56:41,674 - INFO - assigned animal PH22542 to group 2
+2018-12-10 02:56:41,674 - INFO - 
+2018-12-10 02:56:41,675 - INFO - best animal to switch is: PH22559 with new mean p = 0.802947
+2018-12-10 02:56:41,675 - INFO - removed animal PH22559 from group 2
+2018-12-10 02:56:41,676 - INFO - assigned animal PH22559 to group 1
+2018-12-10 02:56:41,676 - INFO - 
+2018-12-10 02:56:41,677 - INFO - 
+2018-12-10 02:56:41,677 - INFO - Group ID: 1
+2018-12-10 02:56:41,678 - INFO - Group size: 15
+2018-12-10 02:56:41,678 - INFO - 
+2018-12-10 02:56:41,679 - INFO - Group ID: 2
+2018-12-10 02:56:41,679 - INFO - Group size: 16
+2018-12-10 02:56:41,680 - INFO - 
+2018-12-10 02:56:41,683 - INFO - Group sizes are balanced!
+2018-12-10 02:56:41,683 - INFO -      Group 1 contains 15 animals
+2018-12-10 02:56:41,685 - INFO - mean feature difference between group 1 and 2: 0.803
+2018-12-10 02:56:41,685 - INFO -      Group 2 contains 16 animals
+2018-12-10 02:56:41,686 - INFO - mean feature difference between group 2 and 1: 0.803
+2018-12-10 02:56:41,686 - INFO - Equalizing group size complete!
+2018-12-10 02:56:41,687 - INFO - 
+2018-12-10 02:56:41,688 - INFO - Creating output!
+2018-12-10 02:56:42,608 - INFO - output created!
+2018-12-10 02:56:42,608 - INFO - 
+2018-12-10 02:56:42,617 - INFO - Plotting results
+2018-12-10 02:56:47,703 - INFO - saving plot as C:/Users/huebo/Blindr/input/example_data_blinded/10-12-18_02-56-40/grouped_example_data.png
+2018-12-10 02:56:47,705 - INFO - 
+2018-12-10 02:56:47,710 - INFO - Blinding output
+2018-12-10 02:56:47,719 - INFO - output blinded!
+2018-12-10 02:56:47,720 - INFO - 
+2018-12-10 02:56:47,721 - INFO - saving data as C:/Users/huebo/Blindr/input/example_data_blinded/10-12-18_02-56-40/blinded_example_data.xlsx
+2018-12-10 02:56:48,323 - INFO - saving succuessful!
+2018-12-10 02:56:48,688 - INFO - Exiting script...

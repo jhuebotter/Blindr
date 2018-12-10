@@ -7,6 +7,8 @@ import errno
 import numpy as np
 import pandas as pd
 from scipy import stats
+import matplotlib
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib import style
 from sklearn.preprocessing import StandardScaler
