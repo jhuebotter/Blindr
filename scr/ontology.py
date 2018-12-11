@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import numpy as np
 from scipy import stats
 import logger
@@ -24,7 +26,7 @@ class Group:
         self.animals = []
         self.id = id_no
         self.n_feat = n_feat
-        self.full_matrix = []
+        self.full_matrix = np.zeros(self.n_feat)
         self.mean_matrix = np.zeros(self.n_feat)
         self.sem_matrix = np.zeros(self.n_feat)
         self.animals_list = []
@@ -52,10 +54,11 @@ class Group:
             
     def update_mean_features(self):
         self.animals_list = [x.id for x in self.animals]
-        self.full_matrix = []
+        self.full_matrix = np.zeros(self.n_feat)
         if len(self.animals_list) > 0: 
             self.mean_matrix = []
             self.sem_matrix = []
+            self.full_matrix = []
             for animal in self.animals:
                 self.full_matrix.append(animal.matrix)
             self.sem_matrix = np.matrix(stats.sem(self.full_matrix))

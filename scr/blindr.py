@@ -4,6 +4,7 @@ import os
 import platform
 import sys
 import errno
+import math
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -16,10 +17,11 @@ from datetime import datetime
 from scipy.spatial import distance
 from functools import reduce
 import logger
+import logging
 import webbrowser
 import ontology as on
-import pop
 import itertools
+import threading
 
 style.use('ggplot')
 np.random.seed(42)
@@ -35,6 +37,8 @@ N_GROUPS = 3
 DO_LOG = True
 OUTHTML = OUTPUT_PATH + FILE_NAME.split('.')[0] + '_output.html' 
 INPUT_PATH = 'dummy'
+
+log = logging.getLogger('global')
 
 def main():
     data, original_data = initialize()
@@ -66,16 +70,18 @@ def write_group_difference(groups, output, features):
         msg = 'Feature: %s' % feat
         logger.write_to_html(OUTHTML,msg)
         difs = np.zeros(shape=(len(groups),len(groups)))
-        df = pd.DataFrame(data=difs,index=range(1,len(groups)+1),columns=range(1,len(groups)+1))
+        ps = []
         for group, other_group in list(itertools.combinations(groups, 2)):
             df1 = output.loc[output['Group'] == group.id]
             df2 = output.loc[output['Group'] == other_group.id]
             t, p = compare_features(df1,df2,feat)
-            df[group.id][other_group.id] = p
+            ps.append(p)
             msg = '    Group %i & group %i     p = %.4f' % (group.id, other_group.id,p)
             logger.write_to_html(OUTHTML,msg)
-    msg = '<br>'
-    logger.write_to_html(OUTHTML,msg)
+        msg = '      Mean significance     p = %.4f' % (np.mean(ps))
+        logger.write_to_html(OUTHTML,msg)
+        msg = '<br>'
+        logger.write_to_html(OUTHTML,msg)
 
 
 def write_group_table(output):
@@ -92,6 +98,8 @@ def run(data, original_data):
     animals = make_animals(data, features)
     groups = make_groups(features)
     assign_animals(animals, groups)
+    if N_GROUPS > 2:
+        optimize_groups(animals, groups, features)
     msg = '<br>' 
     logger.write_to_html(OUTHTML,msg)
 
@@ -136,6 +144,8 @@ def make_output(data, animals, groups):
 
 def assign_animals(animals, groups):
     log.info('Assigning animals to groups')
+    for i, group in enumerate(groups):
+        group.assign(animals[i])
     unassigned_animals = [animal for animal in animals if animal.group_id==None]
     while len(unassigned_animals) > 0:
         largest_distance = 0.0
@@ -240,6 +250,62 @@ def equalize_groups(animals, groups):
     return
 
 
+def optimize_groups(animals, groups, features):
+    log.info('Optimizing groups')
+    imps = 1
+    first_sqH = get_sqH(groups, features)
+    while imps > 0:
+        imps = 0
+        for animal, other_animal in list(itertools.combinations(animals, 2)):
+            if animal.group_id == other_animal.group_id:
+                continue
+            else:
+                animal_group = [group for group in groups if animal in group.animals][0]
+                other_animal_group = [group for group in groups if other_animal in group.animals][0]
+                animal_group.release(animal)
+                other_animal_group.release(other_animal)
+                animal_group.assign(other_animal)
+                other_animal_group.assign(animal)
+
+                new_sqH = get_sqH(groups, features)
+                if new_sqH > first_sqH:
+                    first_sqH = new_sqH
+                    imps += 1
+                    #print('animal1',animal.id,'from',animal_group.id)
+                    #print('animal2', other_animal.id,'from', other_animal_group.id)
+                    print('improved the sum of squared p to ', new_sqH)
+                else:
+                    animal_group.release(other_animal)
+                    other_animal_group.release(animal)
+                    animal_group.assign(animal)
+                    other_animal_group.assign(other_animal)
+        print('total of ',imps,'improvements')
+    log.info('Optimizing groups complete!')
+
+    return
+
+
+def get_sqH(groups, features):
+    sq_p = 0
+    for i in range(len(features)):
+        H, p = nonpar_anova(groups,i)
+        sq_p += p**2
+
+    return sq_p
+
+
+def nonpar_anova(groups,feat):
+
+    grouped_vector = []
+    for group in groups:
+        grouped_vector.append([row[feat] for row in group.full_matrix])
+
+    H, p = stats.f_oneway(*grouped_vector)
+
+    return H, p
+
+
+
 def compare_features(df1,df2,feat):
     feats1 = df1[feat].values
     feats2 = df2[feat].values
@@ -249,10 +315,11 @@ def compare_features(df1,df2,feat):
 
 
 def compare_groups(group1,group2):
-    matrix1 = group1.full_matrix
-    matrix2 = group2.full_matrix
+    matrix1 = [list(row) for row in group1.full_matrix]
+    matrix2 = [list(row) for row in group2.full_matrix]
+    #print(matrix1, matrix2)
     t, p = stats.ttest_ind(matrix1, matrix2, axis=0, equal_var=False)
-      
+    #print(p)
     return t, p
 
 
@@ -437,16 +504,21 @@ def read_config():
     FILE_NAME = arguments[4]
     FILE_FORMAT = arguments[3]
     OUTPUT_PATH = OUTPUT_PATH + now + '/'
-    #OUTPUT_PATH = OUTPUT_PATH.replace('\n','')
     LOG_FILE = FILE_NAME + '.log'
     OUTHTML = OUTPUT_PATH + FILE_NAME + '_output.html' 
 
 
-if __name__ == '__main__':
+def activate():
     read_config()
     mkdir_p(OUTPUT_PATH)
     log = logger.global_log('global', OUTPUT_PATH+LOG_FILE,DO_LOG)
     log.info('Starting script...')
     main()
+    
+
+if __name__ == '__main__':
+    import pop
+    pop.App()
+    activate()
     log.info('Exiting script...')
     sys.exit()
