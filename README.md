@@ -8,7 +8,7 @@ git clone https://github.com/jhuebotter/Blindr.git
 ```
 To run the script run in a terminal:
 ```
-python Blindr/scr/master.py
+python Blindr/scr/blindr.py
 ```
 
 ## Background Information
