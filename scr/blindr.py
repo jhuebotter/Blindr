@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+# created by Justus Huebotter and Sarantos Tzortzis in 2018 / 2019
 # this is the core script behind blindr
 # it will read the specified input table, create animal and group objects with respect to the input
 # and then assigns the animals to the groups based on the inference structure
