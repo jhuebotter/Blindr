@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# this is the core script behind blindr
+# it will read the specified input table, create animal and group objects with respect to the input
+# and then assigns the animals to the groups based on the inference structure
+
 import os
 import platform
 import sys
@@ -40,13 +44,63 @@ INPUT_PATH = 'dummy'
 
 log = logging.getLogger('global')
 
+# this first section is the running order of the script itself
+
+def activate():
+
+    # this function is called by the run button on the gui and starts the scipt
+
+    read_config()
+    mkdir_p(OUTPUT_PATH)
+    log = logger.global_log('global', OUTPUT_PATH+LOG_FILE,DO_LOG)
+    log.info('Starting script...')
+    main()
+
+
 def main():
+
+    # the process is divided into three sections for increased traceability
+
     data, original_data = initialize()
     data, features, animals, groups = run(data, original_data)
     finalize(original_data, animals, groups, features)
 
 
+def initialize():
+
+    # this function reads the input data and initializes the output html file
+
+    logger.init_html(OUTHTML, OUTPUT_PATH, INPUT_PATH, N_GROUPS)
+    data = load_data(INPUT_PATH)
+    logger.write_to_html(OUTHTML, 'Number of animals: %i' % len(data))
+    logger.write_to_html(OUTHTML, '<br>')
+    original_data = data.copy()
+
+    return data, original_data
+
+
+def run(data, original_data):
+
+    # this function calls the workflow according to the inference structure
+
+    data, features = process_data(data)
+    plt = plot_data(original_data)
+    data = standardscale(data, features)
+    animals = make_animals(data, features)
+    groups = make_groups(features)
+    assign_animals(animals, groups)
+    if N_GROUPS > 2:
+        optimize_groups(animals, groups, features)
+    msg = '<br>' 
+    logger.write_to_html(OUTHTML,msg)
+
+    return data, features, animals, groups
+
+
 def finalize(original_data, animals, groups, features):
+
+    # this function finalizes the output after the inference structure is complete
+
     output = make_output(original_data, animals, groups)
     plot_result(output)
     write_group_difference(groups, output, features)
@@ -61,88 +115,98 @@ def finalize(original_data, animals, groups, features):
         webbrowser.open_new_tab(OUTHTML)
 
 
-def write_group_difference(groups, output, features):
-    org_features = list(output.columns.values[2:-2])
-    num_features = [feat for feat in org_features if feat in features]
-    topic = 'Difference significance of features between groups'  
-    logger.topic_to_html(OUTHTML, topic)
-    for feat in num_features:
-        msg = 'Feature: %s' % feat
-        logger.write_to_html(OUTHTML,msg)
-        difs = np.zeros(shape=(len(groups),len(groups)))
-        ps = []
-        for group, other_group in list(itertools.combinations(groups, 2)):
-            df1 = output.loc[output['Group'] == group.id]
-            df2 = output.loc[output['Group'] == other_group.id]
-            t, p = compare_features(df1,df2,feat)
-            ps.append(p)
-            msg = '    Group %i & group %i     p = %.4f' % (group.id, other_group.id,p)
-            logger.write_to_html(OUTHTML,msg)
-        msg = '      Mean significance     p = %.4f' % (np.mean(ps))
-        logger.write_to_html(OUTHTML,msg)
-        msg = '<br>'
-        logger.write_to_html(OUTHTML,msg)
+# this second section is the workflow of the inference structure
+
+def read_config():
+
+    # this function gets the input parameters specified in the gui and sets important global variables
+
+    global OUTPUT_PATH, OUTHTML, N_GROUPS, INPUT_PATH, FILE_NAME, FILE_FORMAT, LOG_FILE
+
+    f = open("args.txt","r")
+    arguments = f.read().split('\n')
+    f.close()
+    os.remove('args.txt')
+    N_GROUPS = int(arguments[0])
+    INPUT_PATH = arguments[1]
+    OUTPUT_PATH = arguments[2]
+    FILE_NAME = arguments[4]
+    FILE_FORMAT = arguments[3]
+    OUTPUT_PATH = OUTPUT_PATH + now + '/'
+    LOG_FILE = FILE_NAME + '.log'
+    OUTHTML = OUTPUT_PATH + FILE_NAME + '_output.html' 
 
 
-def write_group_table(output):
-    group_summary = output.reset_index().set_index(['Group','No']).unstack(['Group']).sort_index(0)
-    msg = group_summary['ID'].to_html()
-    logger.table_to_html(OUTHTML,msg,'Experimental groups')
+def process_data(data):
 
+    # this function coverts the input file into animals features and converts categorical into a specific form of pseudocode
+    log.info('Preprocessing data')
+    features = [x for x in data.columns[2:]]
+    msg = '\n Found features:'
+    log.info(msg)
+    logger.write_to_html(OUTHTML, msg)
+    vector_features = []
+    for c, f in enumerate(features):
+        if data[f].dtypes == object:
+            msg = '     Categorical feature: %s' % f
+            log.info(msg)
+            logger.write_to_html(OUTHTML, msg)
+            msg = '         Unique values: %i' % len(data[f].unique())
+            log.info(msg)
+            logger.write_to_html(OUTHTML, msg)
+            log.info(data[f].value_counts())
+            categories = [x for x, n in data[f].value_counts().iteritems()]
+            for category, n in data[f].value_counts().iteritems(): #categories:
+                log.info('Numerizing category: %s',category)
+                data[category] = (data[f] == category).astype(float)
+                vector_features.append(category)
+        else:
+            msg = '     Numerical feature: %s' % f
+            log.info(msg)
+            logger.write_to_html(OUTHTML, msg)
 
-def run(data, original_data):
-    data, features = process_data(data)
-    plt = plot_data(original_data)
-    data = standardscale(data, features)
-    #save_data(data, 'standardized_%s' % FILE_NAME)
-    animals = make_animals(data, features)
-    groups = make_groups(features)
-    assign_animals(animals, groups)
-    if N_GROUPS > 2:
-        optimize_groups(animals, groups, features)
-    msg = '<br>' 
-    logger.write_to_html(OUTHTML,msg)
-
-    return data, features, animals, groups
-
-
-def initialize():
-    logger.init_html(OUTHTML, OUTPUT_PATH, INPUT_PATH, N_GROUPS)
-    data = load_data(INPUT_PATH)
-    logger.write_to_html(OUTHTML, 'Number of animals: %i' % len(data))
-    logger.write_to_html(OUTHTML, '<br>')
-    original_data = data.copy()
-
-    return data, original_data
-
-
-def blind_output(data):
-    log.info('Blinding output')
-    drop = list(data.columns.values[2:-2])
-    new = [column for column in data.columns.values if column not in drop]
-    data = data.loc[:, data.columns.isin(new)]
-    log.info('output blinded!')
+            vector_features.append(f)
+    log.info('Preprocessing complete')
     log.info('')
-    
-    return data
+
+    return data, vector_features
 
 
-def make_output(data, animals, groups):
-    log.info('Creating output!')
-    output = data[data.columns[:]]
-    output['Group'] = None
-    for animal in animals:
-        output['Group'].loc[animal.id] = animal.group_id
-    for group in groups:
-        output.loc[output['Group'] == group.id,'No'] = range(1,len(group.animals)+1)
-    output['No'] = output['No'].astype(int)
-    log.info('output created!')
+def make_groups(features):
+
+    # this function creates the number of specified experimental groups as group objects from the ontology / domain model
+
+    log.info('Creating groups')
+    groups = []
+    for i in range(N_GROUPS):
+        groups.append(on.Group(i+1,len(features)))
+    log.info('Created %i groups', len(groups))
     log.info('')
-    
-    return output
+
+    return groups
+
+
+def make_animals(data, features):
+
+    # this function creates the specified animals as objects from the ontology / domain model
+
+    log.info('Creating animals')
+    animals = []
+    for animal_id in data.index:
+        kwargs={}
+        for key, value in data.loc[animal_id][features].iteritems():
+            kwargs[key] = value
+        animals.append(on.Animal(animal_id,**kwargs))
+    log.info('Created %i animals', len(animals))
+    log.info('')
+
+    return animals
 
 
 def assign_animals(animals, groups):
+
+    # this function does the initial assignment of animals to experimental groups, based on soft requirements
+
     log.info('Assigning animals to groups')
     for i, group in enumerate(groups):
         group.assign(animals[i])
@@ -166,6 +230,9 @@ def assign_animals(animals, groups):
 
 
 def equalize_groups(animals, groups):
+
+    # this function equalizies the group sizes while preserving group feature similarity
+
     log.info('Equalizing group sizes')
     mean_p = 0.0
     largest_group_id = None
@@ -251,6 +318,9 @@ def equalize_groups(animals, groups):
 
 
 def optimize_groups(animals, groups, features):
+
+    # this function switches animals between equally sized groups to further optimize group similarity
+
     log.info('Optimizing groups')
     imps = 1
     first_sqH = get_sqH(groups, features)
@@ -285,7 +355,79 @@ def optimize_groups(animals, groups, features):
     return
 
 
+def make_output(data, animals, groups):
+
+    # this function creates the output of this script
+
+    log.info('Creating output!')
+    output = data[data.columns[:]]
+    output['Group'] = None
+    for animal in animals:
+        output['Group'].loc[animal.id] = animal.group_id
+    for group in groups:
+        output.loc[output['Group'] == group.id,'No'] = range(1,len(group.animals)+1)
+    output['No'] = output['No'].astype(int)
+    log.info('output created!')
+    log.info('')
+    
+    return output
+
+
+def blind_output(data):
+
+    # this function blinds the output of the script 
+
+    log.info('Blinding output')
+    drop = list(data.columns.values[2:-2])
+    new = [column for column in data.columns.values if column not in drop]
+    data = data.loc[:, data.columns.isin(new)]
+    log.info('output blinded!')
+    log.info('')
+    
+    return data
+
+
+# this third section contains helper functions used by the aformentioned functions for logic and output
+
+def write_group_difference(groups, output, features):
+
+    # this helper function writes paired feature per group differences to the output for later manual quality control
+    
+    org_features = list(output.columns.values[2:-2])
+    num_features = [feat for feat in org_features if feat in features]
+    topic = 'Difference significance of features between groups'  
+    logger.topic_to_html(OUTHTML, topic)
+    for feat in num_features:
+        msg = 'Feature: %s' % feat
+        logger.write_to_html(OUTHTML,msg)
+        difs = np.zeros(shape=(len(groups),len(groups)))
+        ps = []
+        for group, other_group in list(itertools.combinations(groups, 2)):
+            df1 = output.loc[output['Group'] == group.id]
+            df2 = output.loc[output['Group'] == other_group.id]
+            t, p = compare_features(df1,df2,feat)
+            ps.append(p)
+            msg = '    Group %i & group %i     p = %.4f' % (group.id, other_group.id,p)
+            logger.write_to_html(OUTHTML,msg)
+        msg = '      Mean significance     p = %.4f' % (np.mean(ps))
+        logger.write_to_html(OUTHTML,msg)
+        msg = '<br>'
+        logger.write_to_html(OUTHTML,msg)
+
+
+def write_group_table(output):
+
+    # this helper function writes the final group assignments to the html output file
+
+    group_summary = output.reset_index().set_index(['Group','No']).unstack(['Group']).sort_index(0)
+    msg = group_summary['ID'].to_html()
+    logger.table_to_html(OUTHTML,msg,'Experimental groups')
+
+
 def get_sqH(groups, features):
+
+    # this helper function calculates the sum of squared p values to be maximized
+
     sq_p = 0
     for i in range(len(features)):
         H, p = nonpar_anova(groups,i)
@@ -296,6 +438,8 @@ def get_sqH(groups, features):
 
 def nonpar_anova(groups,feat):
 
+    # this helper function conducts a oneway anova for a given feature across all groups
+
     grouped_vector = []
     for group in groups:
         grouped_vector.append([row[feat] for row in group.full_matrix])
@@ -305,8 +449,10 @@ def nonpar_anova(groups,feat):
     return H, p
 
 
-
 def compare_features(df1,df2,feat):
+
+    # this helper function conducts a non-parametric t-test comparing a feature of two given groups
+
     feats1 = df1[feat].values
     feats2 = df2[feat].values
     t, p = stats.ttest_ind(feats1, feats2, equal_var=False)
@@ -315,40 +461,19 @@ def compare_features(df1,df2,feat):
 
 
 def compare_groups(group1,group2):
+
+    # this helper function conducts a non-paramentric t-test across all featues of two given groups
+
     matrix1 = [list(row) for row in group1.full_matrix]
     matrix2 = [list(row) for row in group2.full_matrix]
-    #print(matrix1, matrix2)
     t, p = stats.ttest_ind(matrix1, matrix2, axis=0, equal_var=False)
-    #print(p)
+
     return t, p
 
 
-def make_groups(features):
-    log.info('Creating groups')
-    groups = []
-    for i in range(N_GROUPS):
-        groups.append(on.Group(i+1,len(features)))
-    log.info('Created %i groups', len(groups))
-    log.info('')
-
-    return groups
-
-
-def make_animals(data, features):
-    log.info('Creating animals')
-    animals = []
-    for animal_id in data.index:
-        kwargs={}
-        for key, value in data.loc[animal_id][features].iteritems():
-            kwargs[key] = value
-        animals.append(on.Animal(animal_id,**kwargs))
-    log.info('Created %i animals', len(animals))
-    log.info('')
-
-    return animals
-
-
 def standardscale(df,features=None):
+
+    # this helper function standardscales all features and converts them into z-scores
     log.info('Standardscaling data')
     scaler = StandardScaler(copy=False)
     if features==None:
@@ -369,40 +494,10 @@ def standardscale(df,features=None):
     return df
 
 
-def process_data(data):
-    log.info('Preprocessing data')
-    features = [x for x in data.columns[2:]]
-    msg = '\n Found features:'
-    log.info(msg)
-    logger.write_to_html(OUTHTML, msg)
-    vector_features = []
-    for c, f in enumerate(features):
-        if data[f].dtypes == object:
-            msg = '     Categorical feature: %s' % f
-            log.info(msg)
-            logger.write_to_html(OUTHTML, msg)
-            msg = '         Unique values: %i' % len(data[f].unique())
-            log.info(msg)
-            logger.write_to_html(OUTHTML, msg)
-            log.info(data[f].value_counts())
-            categories = [x for x, n in data[f].value_counts().iteritems()]
-            for category, n in data[f].value_counts().iteritems(): #categories:
-                log.info('Numerizing category: %s',category)
-                data[category] = (data[f] == category).astype(float)
-                vector_features.append(category)
-        else:
-            msg = '     Numerical feature: %s' % f
-            log.info(msg)
-            logger.write_to_html(OUTHTML, msg)
-
-            vector_features.append(f)
-    log.info('Preprocessing complete')
-    log.info('')
-
-    return data, vector_features
-
-
 def plot_data(data,savefig=True,show=False):
+
+    # this helper function creates a plot of input data distribution for manual quality control in the output file
+    
     log.info('Plotting data')
     features = [x for x in data.columns[2:]]
     fig, ax = plt.subplots(1,len(features),figsize=(15, 4))
@@ -427,6 +522,9 @@ def plot_data(data,savefig=True,show=False):
 
 
 def plot_result(data,savefig=True,show=False):
+
+    # this helper function creates a plot of feature distribution across the optimized groups for manual quality control in the output file
+
     log.info('Plotting results')
     features = [x for x in data.columns[2:-2]]
     n_groups = len(data['Group'].unique())
@@ -452,6 +550,9 @@ def plot_result(data,savefig=True,show=False):
 
 
 def load_data(path=DATA_PATH):
+
+    # this helper function loads the data from the specified input file
+
     log.info('Loading data from %s', path)
     if FILE_FORMAT in ['xlsx','xls']:
         data = pd.read_excel(path)
@@ -469,6 +570,9 @@ def load_data(path=DATA_PATH):
 
 
 def save_data(df, name, fullpath=False):
+
+    # this helper function saves the output data to a csv / excel table
+
     if fullpath == False:
         name = OUTPUT_PATH+name
         mkdir_p(OUTPUT_PATH) 
@@ -481,40 +585,18 @@ def save_data(df, name, fullpath=False):
 
 
 def mkdir_p(path):
+
+    # this helper function creates the output directory
+
     try:
         os.makedirs(path)
-        #log.info("created directory %s", path)
+        log.info("created directory %s", path)
     except OSError as exc:
         if exc.errno == errno.EEXIST and os.path.isdir(path):
             pass
         else:
             raise
 
-
-def read_config():
-    global OUTPUT_PATH, OUTHTML, N_GROUPS, INPUT_PATH, FILE_NAME, FILE_FORMAT, LOG_FILE
-
-    f = open("args.txt","r")
-    arguments = f.read().split('\n')
-    f.close()
-    os.remove('args.txt')
-    N_GROUPS = int(arguments[0])
-    INPUT_PATH = arguments[1]
-    OUTPUT_PATH = arguments[2]
-    FILE_NAME = arguments[4]
-    FILE_FORMAT = arguments[3]
-    OUTPUT_PATH = OUTPUT_PATH + now + '/'
-    LOG_FILE = FILE_NAME + '.log'
-    OUTHTML = OUTPUT_PATH + FILE_NAME + '_output.html' 
-
-
-def activate():
-    read_config()
-    mkdir_p(OUTPUT_PATH)
-    log = logger.global_log('global', OUTPUT_PATH+LOG_FILE,DO_LOG)
-    log.info('Starting script...')
-    main()
-    
 
 if __name__ == '__main__':
     import pop

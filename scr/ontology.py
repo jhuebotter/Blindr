@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# this script represents the ontology established for this project
+# it refers to the animal and group classes from the domain structure
+
 import numpy as np
 from scipy import stats
 import logger
@@ -8,6 +11,9 @@ import logging
 log = logging.getLogger('global')
 
 class Animal:
+
+    # an object of this class referes to the the animal of the domain strucute
+    # it can belong to up to one group at a time, has an ID and a set of features
 
     def __init__(self,id_no,**kwargs):
         self.group_id = None
@@ -22,6 +28,9 @@ class Animal:
 
 class Group:
 
+    # an object of this class referes to the the experimental group of the domain strucute
+    # it can contain to several animals at a time, has an ID and a set of average animal features
+
     def __init__(self,id_no,n_feat):
         self.animals = []
         self.id = id_no
@@ -33,6 +42,9 @@ class Group:
         log.info("created group with ID: %s", self.id)
 
     def assign(self, anim):
+
+        # this function assigns any given animal to the group, if not assigned already
+
         self.animals.append(anim)
         if anim.group_id == None:
             anim.group_id = self.id
@@ -44,6 +56,9 @@ class Group:
             log.warning("assignment failed - animal %s already in group %s - please release first to reassign", anim.id, anim.group_id)
 
     def release(self, anim):
+
+        # this function releases any given animal from this group, if present
+
         if anim in self.animals:
             self.animals.remove(anim)
             log.info("removed animal %s from group %s", anim.id, self.id)
@@ -53,6 +68,9 @@ class Group:
             log.warning("release failed - animal %s not in group %s", anim.id, self.id)
             
     def update_mean_features(self):
+
+        # this function updates the mean feature matrix after the group constellation has been changed
+        
         self.animals_list = [x.id for x in self.animals]
         self.full_matrix = np.zeros(self.n_feat)
         if len(self.animals_list) > 0: 
@@ -68,33 +86,10 @@ class Group:
             self.sem_matrix = np.zeros(self.n_feat)
 
 
-'''
-class Experimental_group:
-    name = ""
-    groups = []
-
-    def __init__(self,id,no_of_groups):
-        self.id = id    
-        for i in range (no_of_groups):
-            group = Group(i)
-            self.groups.append(group)
-
-    def assign(self, anim, flag):
-        log.info("how many groups ",len(self.groups))
-
-        ###only the first times
-        for i in range(0,len(self.groups)):
-            if not self.groups[i].animals:
-                self.groups[i].animals.append(anim)
-                log.info(i)
-                break
-
-        if flag is True:
-            self.groups[0].animals.append(anim)
-
-'''
-
 def test():
+
+    # this function tests if animals and groups can be created and assigned properly
+
     log = logger.global_log('global', 'ontology_test.log')
     
     log.info('Coducting ontology.py testrun')
@@ -129,20 +124,3 @@ def test():
 
 if __name__ == '__main__':
     test()
-
-
-
-
-
-'''
-
-experiment = Experimental_group("test_case", 2)
-
-experiment.assign(mouse,False)
-experiment.assign(mouse2,False)
-experiment.assign(mouse3, True)
-experiment.assign(mouse4, True)
-
-experiment.groups[0].update_mean_features()
-
-'''

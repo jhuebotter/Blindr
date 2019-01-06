@@ -1,9 +1,14 @@
 #!/usr/bin/python
 
+# this script consits of helper functions to create logging and html output
+
 import logging
 from sys import stderr
 
 def global_log(name, fname='global.log',active=True):
+
+    # this function initializes the logger used by all blindr components and writes to the specified log output file
+
     logger = logging.getLogger(name);                                                                               
     logger.setLevel(logging.DEBUG)  
     if active == False:                                                                   
@@ -23,6 +28,9 @@ def global_log(name, fname='global.log',active=True):
 
 
 def init_html(html,output_dir,file,n_groups):
+
+    # this function initializes the html output file and writes the header
+
     f = open(html,'w')
     msg = '''
     <html>
@@ -60,12 +68,17 @@ def init_html(html,output_dir,file,n_groups):
 
 
 def table_to_html(html, table, title=None):
+
+    # this function is used to add tables to the html output file
+
     f = open(html,'a')
     if title:
         msg = '''
             <h3>''' + title + '''</h3>
         '''
         f.write(msg)
+    
+    # format example of the passed table:
 
     '''
         <table border="1" class="dataframe">
@@ -89,13 +102,16 @@ def table_to_html(html, table, title=None):
             </tr>
           </tbody>
         </table>
-        '''
+    '''
     f.write(table)
     f.write('<br><br>')
     f.close()
 
 
 def write_to_html(html, text):
+
+    # this function is used to write text to the html output file
+
     f = open(html,'a')
     text = text.replace(' ', '&ensp;')
     msg = '''
@@ -106,6 +122,9 @@ def write_to_html(html, text):
 
 
 def topic_to_html(html, text):
+
+    # this function is used to write headings to the html output file
+
     f = open(html,'a')
     text = text.replace(' ', '&ensp;')
     msg = '''
@@ -116,6 +135,9 @@ def topic_to_html(html, text):
 
 
 def plot_to_html(html, path, name, title='TITLE'):
+
+    # this function is used to insert plots into the html output file
+
     f = open(html,'a')
     msg = '''
             <!-- *** Section 1 *** --->
@@ -129,6 +151,9 @@ def plot_to_html(html, path, name, title='TITLE'):
 
 
 def finish_html(html):
+
+    # this function finalizes the html output file
+
     f = open(html,'a')
     msg = '''       
     </body>
