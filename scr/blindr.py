@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
-# created by Justus Huebotter and Sarantos Tzortzis in 2018 / 2019
-# this is the core script behind blindr
-# it will read the specified input table, create animal and group objects with respect to the input
-# and then assigns the animals to the groups based on the inference structure
+'''
+ developed by Justus Huebotter and Sarantos Tzortzis - 2019
+ this is the core script behind blindr
+ it will read the specified input table, create animal and group objects with respect to the input
+ and then assigns the animals to the groups based on the inference structure
+'''
 
 import os
 import platform
@@ -42,6 +44,8 @@ N_GROUPS = 3
 DO_LOG = True
 OUTHTML = OUTPUT_PATH + FILE_NAME.split('.')[0] + '_output.html' 
 INPUT_PATH = 'dummy'
+ANIMAL_ID = "ID"
+FEATURES = []
 
 log = logging.getLogger('global')
 
@@ -54,7 +58,7 @@ def activate():
     read_config()
     mkdir_p(OUTPUT_PATH)
     log = logger.global_log('global', OUTPUT_PATH+LOG_FILE,DO_LOG)
-    log.info('Starting script...')
+    log.info('Log initiated...')
     main()
 
 
@@ -114,6 +118,7 @@ def finalize(original_data, animals, groups, features):
     if os.path.isfile(OUTHTML):
         logger.finish_html(OUTHTML)
         webbrowser.open_new_tab(OUTHTML)
+    log.info('Exiting script...')
 
 
 # this second section is the workflow of the inference structure
@@ -122,7 +127,7 @@ def read_config():
 
     # this function gets the input parameters specified in the gui and sets important global variables
 
-    global OUTPUT_PATH, OUTHTML, N_GROUPS, INPUT_PATH, FILE_NAME, FILE_FORMAT, LOG_FILE
+    global OUTPUT_PATH, OUTHTML, N_GROUPS, INPUT_PATH, FILE_NAME, FILE_FORMAT, LOG_FILE, ANIMAL_ID, FEATURES
 
     f = open("args.txt","r")
     arguments = f.read().split('\n')
@@ -136,18 +141,20 @@ def read_config():
     OUTPUT_PATH = OUTPUT_PATH + now + '/'
     LOG_FILE = FILE_NAME + '.log'
     OUTHTML = OUTPUT_PATH + FILE_NAME + '_output.html' 
+    ANIMAL_ID = arguments[5]
+    FEATURES = arguments[6:-1]
 
 
 def process_data(data):
 
     # this function coverts the input file into animals features and converts categorical into a specific form of pseudocode
+    
     log.info('Preprocessing data')
-    features = [x for x in data.columns[2:]]
-    msg = '\n Found features:'
+    msg = 'Found features:'
     log.info(msg)
-    logger.write_to_html(OUTHTML, msg)
+    logger.write_to_html(OUTHTML,'\n' + msg)
     vector_features = []
-    for c, f in enumerate(features):
+    for c, f in enumerate(FEATURES):
         if data[f].dtypes == object:
             msg = '     Categorical feature: %s' % f
             log.info(msg)
@@ -165,7 +172,6 @@ def process_data(data):
             msg = '     Numerical feature: %s' % f
             log.info(msg)
             logger.write_to_html(OUTHTML, msg)
-
             vector_features.append(f)
     log.info('Preprocessing complete')
     log.info('')
@@ -214,8 +220,6 @@ def assign_animals(animals, groups):
     unassigned_animals = [animal for animal in animals if animal.group_id==None]
     while len(unassigned_animals) > 0:
         largest_distance = 0.0
-        group_id = 0
-        animal_id = 0
         for animal in unassigned_animals:
             for group in groups:
                 dist = distance.euclidean(animal.matrix, group.mean_matrix)
@@ -342,15 +346,13 @@ def optimize_groups(animals, groups, features):
                 if new_sqH > first_sqH:
                     first_sqH = new_sqH
                     imps += 1
-                    #print('animal1',animal.id,'from',animal_group.id)
-                    #print('animal2', other_animal.id,'from', other_animal_group.id)
-                    print('improved the sum of squared p to ', new_sqH)
                 else:
                     animal_group.release(other_animal)
                     other_animal_group.release(animal)
                     animal_group.assign(animal)
                     other_animal_group.assign(other_animal)
-        print('total of ',imps,'improvements')
+        msg = 'total of '+str(imps)+' improvements'
+        log.info(msg)
     log.info('Optimizing groups complete!')
 
     return
@@ -379,8 +381,7 @@ def blind_output(data):
     # this function blinds the output of the script 
 
     log.info('Blinding output')
-    drop = list(data.columns.values[2:-2])
-    new = [column for column in data.columns.values if column not in drop]
+    new = [column for column in data.columns.values if column not in FEATURES]
     data = data.loc[:, data.columns.isin(new)]
     log.info('output blinded!')
     log.info('')
@@ -394,9 +395,9 @@ def write_group_difference(groups, output, features):
 
     # this helper function writes paired feature per group differences to the output for later manual quality control
     
-    org_features = list(output.columns.values[2:-2])
+    org_features = list(output.columns.values)
     num_features = [feat for feat in org_features if feat in features]
-    topic = 'Difference significance of features between groups'  
+    topic = 'Difference significance of numerical features between groups'  
     logger.topic_to_html(OUTHTML, topic)
     for feat in num_features:
         msg = 'Feature: %s' % feat
@@ -421,7 +422,7 @@ def write_group_table(output):
     # this helper function writes the final group assignments to the html output file
 
     group_summary = output.reset_index().set_index(['Group','No']).unstack(['Group']).sort_index(0)
-    msg = group_summary['ID'].to_html()
+    msg = group_summary[ANIMAL_ID].to_html()
     logger.table_to_html(OUTHTML,msg,'Experimental groups')
 
 
@@ -500,13 +501,18 @@ def plot_data(data,savefig=True,show=False):
     # this helper function creates a plot of input data distribution for manual quality control in the output file
     
     log.info('Plotting data')
-    features = [x for x in data.columns[2:]]
-    fig, ax = plt.subplots(1,len(features),figsize=(15, 4))
-    for c, f in enumerate(features):
-        if data[f].dtypes == object:
-            data[f].value_counts().plot(kind='bar',ax=ax[c],title=f)
+    if len(FEATURES) > 1:
+        fig, ax = plt.subplots(1,len(FEATURES),figsize=(15, 4))
+        for c, f in enumerate(FEATURES):
+            if data[f].dtypes == object:
+                data[f].value_counts().plot(kind='bar',ax=ax[c],title=f)
+            else:
+                data[f].plot(kind='hist',ax=ax[c],title=f,bins=9)
+    else:
+        if data[FEATURES[0]].dtypes == object:
+            data[FEATURES[0]].value_counts().plot(kind='bar',title=FEATURES[0])
         else:
-            data[f].plot(kind='hist',ax=ax[c],title=f,bins=9)
+            data[FEATURES[0]].plot(kind='hist',title=FEATURES[0],bins=9)
     plt.tight_layout()
     if savefig:
         name = "%s_features.png" % FILE_NAME
@@ -527,14 +533,19 @@ def plot_result(data,savefig=True,show=False):
     # this helper function creates a plot of feature distribution across the optimized groups for manual quality control in the output file
 
     log.info('Plotting results')
-    features = [x for x in data.columns[2:-2]]
     n_groups = len(data['Group'].unique())
-    fig, ax = plt.subplots(1,len(features),figsize=(15, 4))
-    for c, f in enumerate(features):
-        if data[f].dtypes == object:
-            data.groupby(by='Group')[f].value_counts().unstack().plot.bar(ax=ax[c],title=f)
+    if len(FEATURES) > 1:
+        fig, ax = plt.subplots(1,len(FEATURES),figsize=(15, 4))
+        for c, f in enumerate(FEATURES):
+            if data[f].dtypes == object:
+                data.groupby(by='Group')[f].value_counts().unstack().plot.bar(ax=ax[c],title=f)
+            else:
+                data.boxplot(column=[f], by='Group', ax=ax[c])
+    else:
+        if data[FEATURES[0]].dtypes == object:
+                data.groupby(by='Group')[FEATURES[0]].value_counts().unstack().plot.bar(title=FEATURES[0])
         else:
-            data.boxplot(column=[f], by='Group', ax=ax[c])
+            data.boxplot(column=[FEATURES[0]], by='Group')
     plt.tight_layout()
     if savefig:
         name = "grouped_%s.png" % FILE_NAME
@@ -563,7 +574,7 @@ def load_data(path=DATA_PATH):
         log.warning('Cannot read data format: %s', FILE_FORMAT)
         log.info('please use .xlsx, .xls or .csv file')
         return
-    data.set_index('ID', inplace=True)
+    data.set_index(ANIMAL_ID, inplace=True)
     log.info('Loading succuessful!')
     log.info('')
     
@@ -602,6 +613,4 @@ def mkdir_p(path):
 if __name__ == '__main__':
     import pop
     pop.App()
-    activate()
-    log.info('Exiting script...')
     sys.exit()

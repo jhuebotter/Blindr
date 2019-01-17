@@ -45,9 +45,9 @@ class Group:
 
         # this function assigns any given animal to the group, if not assigned already
 
-        self.animals.append(anim)
         if anim.group_id == None:
             anim.group_id = self.id
+            self.animals.append(anim)
             self.update_mean_features()
             log.info("assigned animal %s to group %s", anim.id, self.id)
         elif anim.group_id == self.id:
