@@ -476,6 +476,7 @@ def compare_groups(group1,group2):
 def standardscale(df,features=None):
 
     # this helper function standardscales all features and converts them into z-scores
+    
     log.info('Standardscaling data')
     scaler = StandardScaler(copy=False)
     if features==None:
@@ -569,7 +570,11 @@ def load_data(path=DATA_PATH):
     if FILE_FORMAT in ['xlsx','xls']:
         data = pd.read_excel(path)
     elif FILE_FORMAT == 'csv':
-        data = pd.read_csv(path)
+        f = open(path,"r")
+        split = f.read().split('\n')[0][-1]
+        data = pd.read_csv(path, sep=split)
+        data.dropna(axis='columns', how='all',inplace=True)
+        data.dropna(axis='rows', how='all',inplace=True)
     else:
         log.warning('Cannot read data format: %s', FILE_FORMAT)
         log.info('please use .xlsx, .xls or .csv file')

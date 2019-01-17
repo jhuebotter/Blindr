@@ -62,7 +62,11 @@ class App():
             file = self.filename.rsplit('.',1)
             file_type = file[1]
             if file_type == 'csv':
-                df = pd.read_csv(self.filename)
+                f = open(self.filename,"r")
+                split = f.read().split('\n')[0][-1]
+                df = pd.read_csv(self.filename, sep=split)
+                df.dropna(axis='columns', how='all',inplace=True)
+                print(df.head())
             elif file_type in ['xlsx','xls']:
                 df = pd.read_excel(self.filename)
             self.choices = [' '] + list(df.columns)
