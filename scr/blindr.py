@@ -8,10 +8,8 @@
 '''
 
 import os
-import platform
 import sys
 import errno
-import math
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -27,16 +25,16 @@ import logger
 import logging
 import webbrowser
 import ontology as on
+import latin
 import itertools
 import threading
 
 style.use('ggplot')
-np.random.seed(42)
-now = datetime.now().strftime("%d-%m-%y_%H-%M-%S")
+#np.random.seed(42)
 
 SCRIPT_PATH = os.getcwd() #example case
 DATA_PATH = SCRIPT_PATH + '\\input\\'  # example case
-OUTPUT_PATH = SCRIPT_PATH + '\\output\\%s\\' % now # example case
+OUTPUT_PATH = SCRIPT_PATH + '\\output\\' # example case
 FILE_NAME = 'example_data.xlsx' # example case
 FILE_FORMAT = '.'+FILE_NAME.split('.')[-1] # example case
 LOG_FILE = FILE_NAME.split('.')[:-1][0] + '.log'
@@ -46,6 +44,7 @@ OUTHTML = OUTPUT_PATH + FILE_NAME.split('.')[0] + '_output.html'
 INPUT_PATH = 'dummy'
 ANIMAL_ID = "ID"
 FEATURES = []
+LATIN = 0
 
 log = logging.getLogger('global')
 
@@ -67,8 +66,63 @@ def main():
     # the process is divided into three sections for increased traceability
 
     data, original_data = initialize()
-    data, features, animals, groups = run(data, original_data)
-    finalize(original_data, animals, groups, features)
+    if LATIN == 0:
+        data, features, animals, groups = run(data, original_data)
+        finalize(original_data, animals, groups, features)
+    else:
+        data = design_latin(data)
+        finalize_latin(data)
+
+
+def design_latin(data):
+
+    # this function creates a balanced latin square design with the script in latin.py
+
+    log.info('Creating repeated measures design...')
+    design, grp_per_col, pair_counts = latin.get_design(len(data), N_GROUPS)
+    for i in range(N_GROUPS):
+        data['Session %s' % str(i+1)] = design[:,i]+1
+
+    log.info('Design:')
+    for i in design:
+        msg = i
+        log.info(msg)
+
+    log.info('Pair counts:')
+    for k, v in pair_counts.items():
+        msg = '%i -> %i: %i' % (k[0], k[1], v)
+        log.info(msg)
+    
+    msg = pd.DataFrame(grp_per_col,
+                       columns=['Group ' + str(x+1) for x in range(N_GROUPS)],
+                       index=data.columns[-N_GROUPS:].values
+                       ).to_html()
+    logger.table_to_html(OUTHTML,msg,'Count of groups per session')
+
+    '''
+    msg = pd.DataFrame(pair_counts
+                       #columns=['Occurance']
+                       ).to_html()
+    logger.table_to_html(OUTHTML,msg,'Count of sequence pairs')
+    '''
+
+    return data
+
+
+def finalize_latin(data):
+
+    # this function saves the finished latin square to the output
+
+    save_name = 'latin_%s' % FILE_NAME+'.'+FILE_FORMAT
+    save_data(data, save_name)
+    msg = 'Grouped data available under %s' % OUTPUT_PATH+save_name 
+    logger.write_to_html(OUTHTML,msg)
+    msg = data.iloc[:,-N_GROUPS:].to_html()
+    logger.table_to_html(OUTHTML,msg,'Experimental groups')
+    if os.path.isfile(OUTHTML):
+        logger.finish_html(OUTHTML)
+        webbrowser.open_new_tab(OUTHTML)
+    log.info('Exiting script...')
 
 
 def initialize():
@@ -77,6 +131,10 @@ def initialize():
 
     logger.init_html(OUTHTML, OUTPUT_PATH, INPUT_PATH, N_GROUPS)
     data = load_data(INPUT_PATH)
+    msg = 'Number of animals: %i' % len(data)
+    log.info(msg)
+    msg = 'Number of groups to create: %i' % N_GROUPS
+    log.info(msg)
     logger.write_to_html(OUTHTML, 'Number of animals: %i' % len(data))
     logger.write_to_html(OUTHTML, '<br>')
     original_data = data.copy()
@@ -127,7 +185,7 @@ def read_config():
 
     # this function gets the input parameters specified in the gui and sets important global variables
 
-    global OUTPUT_PATH, OUTHTML, N_GROUPS, INPUT_PATH, FILE_NAME, FILE_FORMAT, LOG_FILE, ANIMAL_ID, FEATURES
+    global OUTPUT_PATH, OUTHTML, N_GROUPS, INPUT_PATH, FILE_NAME, FILE_FORMAT, LOG_FILE, ANIMAL_ID, FEATURES, LATIN
 
     f = open("args.txt","r")
     arguments = f.read().split('\n')
@@ -138,11 +196,12 @@ def read_config():
     OUTPUT_PATH = arguments[2]
     FILE_NAME = arguments[4]
     FILE_FORMAT = arguments[3]
-    OUTPUT_PATH = OUTPUT_PATH + now + '/'
     LOG_FILE = FILE_NAME + '.log'
     OUTHTML = OUTPUT_PATH + FILE_NAME + '_output.html' 
     ANIMAL_ID = arguments[5]
-    FEATURES = arguments[6:-1]
+    LATIN = int(arguments[6])
+    print(LATIN)
+    FEATURES = arguments[7:-1]
 
 
 def process_data(data):
@@ -390,6 +449,7 @@ def blind_output(data):
 
 
 # this third section contains helper functions used by the aformentioned functions for logic and output
+
 
 def write_group_difference(groups, output, features):
 
