@@ -25,4 +25,6 @@ Ihe accepted input formats are .csv, .xls and .xlsx. The first line of the table
 ## Future improvements
 - Step-by-step wizard with explainations on the presented choices.
 - More flexible repreated measures options, such as a differentiation between groups to create and available test days.
+- Progress bar to show that the script is running in the background.
+- Dataset summary and visualization of selected features before the script is executed.
 
